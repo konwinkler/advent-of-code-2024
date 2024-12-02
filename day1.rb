@@ -41,3 +41,36 @@ end
 
 test_equals add_distances('input.1.example.txt'), 11
 puts add_distances('input.1.txt')
+
+def find_occurences(arr, val)
+    occurences = 0
+    arr.each_with_index do |a|
+        if a == val
+            occurences += 1
+        end
+    end
+    return occurences
+end
+
+def similiarity_score(file_name)
+    lines = read_file(file_name)
+    left = []
+    right = []
+    lines.each do |line|
+        x, y = line.split(' ')
+        left << x.to_i
+        right << y.to_i
+    end
+
+    sum = 0
+    left.each_with_index do |l, i|
+        # find occurences of l in right
+        occurences = find_occurences(right, l)
+        sum += l * occurences
+    end
+
+    return sum
+end
+
+test_equals similiarity_score('input.1.example.txt'), 31
+puts similiarity_score('input.1.txt')
